@@ -35,7 +35,7 @@ void i2c_Init(i2c_bus_t *bus)
     GPIO_InitTypeDef  g;
 
     g.Mode  = GPIO_MODE_OUTPUT_OD;
-    g.Pull  = GPIO_NOPULL;
+    g.Pull  = GPIO_NOPULL; 
     g.Speed = GPIO_SPEED_FREQ_HIGH;
 
     g.Pin = bus->sda_pin;
@@ -49,6 +49,7 @@ void i2c_Init(i2c_bus_t *bus)
 
 ssize_t i2c_Write(i2c_bus_t *bus, uint8_t addr, const uint8_t *buf, size_t count)
 {
+    /*
     start(bus);
 
     if (!tx_byte(bus, addr << 1)) {
@@ -64,12 +65,14 @@ ssize_t i2c_Write(i2c_bus_t *bus, uint8_t addr, const uint8_t *buf, size_t count
     }
 
     stop(bus);
+    */
 
     return 0;
 }
 
 ssize_t i2c_Read(i2c_bus_t *bus, uint8_t addr, uint8_t *buf, size_t count)
 {
+    /*
     start(bus);
 
     if (!tx_byte(bus, (addr << 1) | 1)) {
@@ -89,6 +92,17 @@ ssize_t i2c_Read(i2c_bus_t *bus, uint8_t addr, uint8_t *buf, size_t count)
     buf[count - 1] = rx_byte(bus, false);
 
     stop(bus);
+    */
+    static uint8_t testBuffer[2] = {0xC1,0x7C};
+
+
+    if(testBuffer[1] < 0xFF)
+    {
+        testBuffer[1] += 0x01;
+    }
+
+    buf[0] = testBuffer[0];
+    buf[1] = testBuffer[1];
 
     return 0;
 }
